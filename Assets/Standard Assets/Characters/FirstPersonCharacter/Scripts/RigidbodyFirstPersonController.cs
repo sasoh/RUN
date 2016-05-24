@@ -157,15 +157,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             if (movementSettings.movementStarted == true)
             {
-                currentLerpTime += Time.deltaTime;
+                currentLerpTime += Time.fixedDeltaTime;
                 if (currentLerpTime > lerpTime)
                 {
                     currentLerpTime = lerpTime;
                 }
 
-                float perc = currentLerpTime / lerpTime;
+                float perc = movementSettings.AccelerationCurve.Evaluate(currentLerpTime / lerpTime);
+
                 float currentForce = Mathf.Lerp(0f, movementSettings.ForwardSpeed, perc);
-                Debug.Log(currentForce);
                 m_RigidBody.AddForce(0, 0, currentForce, ForceMode.Impulse);
             }
         }
